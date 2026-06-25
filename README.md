@@ -53,40 +53,74 @@ Risk Assessment & Insights
 
 ## Pipelines
 
-Two end-to-end functions wrap the full workflow:
+Two end-to-end functions wrap the complete portfolio analysis workflow.
 
-### `run_portfolio_pipeline()`
+fetch_optimize_analyse_simulate()
 
-Fetches data → validates quality → optimizes weights → runs Monte Carlo.
+Loads historical market data → optimizes portfolio weights using Modern Portfolio Theory → performs Monte Carlo simulation → generates risk projections and visualizations
 
-```python
-result, mc_sim = run_portfolio_pipeline(
-    portfolio_tokens,
-    start_date='2021-06-01',
-    end_date='2026-01-01',
+```
+result = fetch_optimize_analyse_simulate(
+    tickers,
+    risk_free_rate=0.0685,
     num_simulations=1000,
-    time_horizon=252,          # 1 trading year forward
-    initial_investment=100000,
-    risk_free_rate=0.0685,     # RBI repo rate
-    min_weight=0.05,           # Minimum 5% per asset
-    max_weight=0.30            # Maximum 30% per asset
+    time_horizon=252
 )
 ```
 
-### `run_analysis_pipeline()`
+Outputs
 
-Takes optimized weights → drops zero-weight tickers → runs full diagnostics and benchmark comparison.
+Optimized portfolio allocation
 
-```python
+Expected annual return
+
+Portfolio volatility
+
+Sharpe ratio
+
+Monte Carlo simulation summary
+
+Future portfolio value projections
+
+Probability of loss estimates
+
+Simulation visualizations
+
+run_analysis_pipeline()
+
+Takes the optimized portfolio → removes inactive assets → computes performance and risk metrics → visualizes results → compares performance against a benchmark index.
+
+```
 active_data, active_weights, active_tickers = run_analysis_pipeline(
     data,
     weights=result["weights"],
     tickers=result["tickers"],
     risk_free_rate=0.0685,
-    benchmark_ticker='^NSEI'
+    benchmark_ticker="^NSEI"
 )
 ```
 
+Outputs
+
+Annualized return analysis
+
+Annualized volatility analysis
+
+Sharpe ratio
+
+Sortino ratio
+
+Maximum drawdown
+
+Value at Risk (VaR)
+
+Portfolio-level performance metrics
+
+Portfolio growth visualizations
+
+Benchmark comparison report
+
+Risk-adjusted performance evaluation
 ---
 
 ## Optimization
